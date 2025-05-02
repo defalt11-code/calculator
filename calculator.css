@@ -1,0 +1,10 @@
+.display {
+  border: 1px solid black;
+  border-radius: 2px;
+  height: 16px;
+  width: 100px;
+}
+
+button {
+  cursor: pointer;
+}
