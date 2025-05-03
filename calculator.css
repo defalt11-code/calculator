@@ -17,14 +17,19 @@ body {
 }
 
 .display-container {
-  align-self: flex-end;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+
   border: 2px solid red;
   border-radius: 2px;
-  height: 200px;
-  flex: 1;
+  height: 100%;
 
-  overflow-wrap: break-word;
+  align-self: stretch;
+  padding-left: 10px;
+  padding-right: 10px;
   word-break: break-all;
+  white-space: normal;
 }
 
 .display {
