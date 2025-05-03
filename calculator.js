@@ -1,70 +1,77 @@
-const buttons = document.querySelector('.buttons-container');
-const display = document.querySelector('.display');
+const buttons = document.querySelector(".buttons-container");
+const display = document.querySelector(".display");
 
 let firstOperand = "";
-let secondOperand = "";
 let operator = "";
-
+let secondOperand = "";
 
 display.textContent = "0";
 
-buttons.addEventListener('click', (event) => {
+buttons.addEventListener("click", (event) => {
   const target = event.target;
   const value = target.id;
-  console.log(typeof value);
-  if(target.tagName !== "BUTTON") return;
+
+  if(!target.tagName === "BUTTON") return;
+
+  if(value === "delete") {
+    if(operator !== "") {
+      secondOperand = secondOperand.slice(0, secondOperand.length -1);
+      display.textContent = firstOperand + operator + secondOperand;
+    }else {
+      firstOperand = firstOperand.slice(0, firstOperand.length -1);
+      display.textContent = firstOperand 
+    }
+  }
 
   if(value === "clear") {
     firstOperand = "";
-    secondOperand = "";
     operator = "";
-    display.textContent = "";
-    return;
-  };
+    secondOperand = "";
+    display.textContent = "0";
+  }
 
-                            /* GOOD MORNIG SELF! */
-    /* FINISH THIS CODE TODAY!! MAKE YOUR SELF PROUD!!! PLEASE DO IT! */
-          /* FOR YOUR FAMILY DREAMS AND FOR MY DREAM! PLEASE!! */
-          /*  DON'T FORGET TO REMOVE THE EXPRESSION VARIABLES! */
-                              /* GOOD LUCK! */
-
-  if(!isNaN(value) || value === "."){
+  if(!isNaN(value) || value === ".") {
     if(!operator) {
       firstOperand += value;
       display.textContent = firstOperand;
-    } else {
+    }else {
       secondOperand += value;
       display.textContent = firstOperand + operator + secondOperand;
     }
-  } else if(["+", "-", "*", "/",].includes(value)) {
+  }else if(value === ".") {
+    if(!firstOperand.includes(".")) {
+      firstOperand += value;
+      display.textContent = firstOperand;
+    } else if(!secondOperand.includes(".")) {
+      secondOperand += value;
+      display.textContent = firstOperand + operator + secondOperand
+    }
+  }else if(["+", "-", "*", "/"].includes(value)) {
     operator = value;
-    display.textContent = firstOperand + operator;
-  } else if(value === "=") {
-    let result = operate(Number(firstOperand), operator, Number(secondOperand));
+    display.textContent = firstOperand + operator
+  }else if(value === "=") {
+    const result = operate(Number(firstOperand), operator, Number(secondOperand));
     display.textContent = result;
-    firstOperand = result;
+    firstOperand = "";
+    operator = "";
     secondOperand = "";
   }
 
-  console.log(`VALUE: ${value}`)
-
-  console.log(`first operand: ${firstOperand}`);
-  console.log(`operator: ${operator}`);
-  console.log(`second operand: ${secondOperand}`);
-
-});
-
-function operate(firstOperand, operator, secondOperand) {
-  switch(operator) {
-    case "+":
-       return firstOperand + secondOperand;
-    case "-":
-       return firstOperand - secondOperand;
-    case "*":
-       return firstOperand * secondOperand;
-    case "/":
-      return secondOperand === 0 ? "ERROR" : firstOperand / secondOperand;
+  function operate(firstOperand, operator, secondOperand) {
+    switch(operator) {
+      case "+":
+        return firstOperand + secondOperand;
+      case "-":
+        return firstOperand - secondOperand;
+      case "*": 
+        return firstOperand * secondOperand;
+      case "/":
+        return firstOperand < 0 ? "ERROR" : firstOperand / secondOperand;
+    }
   }
-}
 
-// first < 0 ? return : firsOperan / secondOperand
+  console.log(`Value: ${value}`)
+  console.log(`First operand: ${firstOperand}`);
+  console.log(`Operator: ${operator}`);
+  console.log(`Second operand: ${secondOperand}`);
+})
