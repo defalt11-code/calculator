@@ -1,13 +1,16 @@
 const buttons = document.querySelector(".buttons-container");
-const display = document.querySelector(".display");
+const display = document.querySelector(".value");
+const expressionHTML = document.querySelector(".expression");
 
 let firstOperand = "";
 let operator = "";
 let secondOperand = "";
 let expression = "";
+let arr = [];
 
 display.textContent = "0";
 
+// Event listeners press buttons!! 
 addEventListener("keydown", (event) => {
   const value = event.key;
 
@@ -34,7 +37,7 @@ addEventListener("keydown", (event) => {
       display.textContent = firstOperand;
     }else {
       secondOperand += value;
-      display.textContent = firstOperand + operator + secondOperand;
+      display.textContent = secondOperand;
     }
   }else if(value === ".") {
     if(!firstOperand.includes(".")) {
@@ -46,13 +49,14 @@ addEventListener("keydown", (event) => {
     }
   }else if(["+", "-", "*", "/"].includes(value)) {
     operator = value;
-    display.textContent = firstOperand + operator
+    expressionHTML.textContent = firstOperand + operator
   }else if(value === "=" || value === "Enter") {
     const result = operate(Number(firstOperand), operator, Number(secondOperand));
     display.textContent = result;
     firstOperand = "";
     operator = "";
     secondOperand = "";
+    expressionHTML.textContent = "";
   }
   
   console.log(`Value: ${value}`)
@@ -82,6 +86,7 @@ buttons.addEventListener("click", (event) => {
     operator = "";
     secondOperand = "";
     display.textContent = "0";
+    expressionHTML.textContent = "";
   }
 
   if(!isNaN(value) || value === ".") {
@@ -90,7 +95,7 @@ buttons.addEventListener("click", (event) => {
       display.textContent = firstOperand;
     }else {
       secondOperand += value;
-      display.textContent = firstOperand + operator + secondOperand;
+      display.textContent = secondOperand;
     }
   }else if(value === ".") {
     if(!firstOperand.includes(".")) {
@@ -102,22 +107,24 @@ buttons.addEventListener("click", (event) => {
     }
   }else if(["+", "-", "*", "/"].includes(value)) {
     operator = value;
-    display.textContent = firstOperand + operator
+    expressionHTML.textContent = firstOperand + operator
   }else if(value === "=") {
     const result = operate(Number(firstOperand), operator, Number(secondOperand));
     display.textContent = result;
     firstOperand = "";
     operator = "";
     secondOperand = "";
+    expressionHTML.textContent = "";
   }
   
-  console.log(`Value: ${value}`)
+  /* console.log(`Value: ${value}`)
   console.log(`First operand: ${firstOperand}`);
   console.log(`Operator: ${operator}`);
-  console.log(`Second operand: ${secondOperand}`);
+  console.log(`Second operand: ${secondOperand}`); 
+  */
 })
 
-
+// function that operate whole thing if "=" or "Enter" is press
 function operate(firstOperand, operator, secondOperand) {
   switch(operator) {
     case "+":
