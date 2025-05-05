@@ -1,54 +1,179 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: sans-serif;
+  background-color: hsl(222, 26%, 31%);
+
+}
+
+h1 {
+  color: white;
 }
 
 .calculator {
   display: flex;
   flex-direction: column;
 
-  border: 3px solid black;
-  height: 400px;
-  width: 300px;
+  background-color: none;
+  height: 500px;
+  width: 350px;
   padding: 10px;
   gap: 10px;
+}
+
+.calc {
+  color: white;
+  font-weight: 700;
 }
 
 .display-container {
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-end;
-
-  border: 2px solid red;
-  border-radius: 2px;
-  height: 100%;
-
   align-self: stretch;
+
+  height: 100px;
+  background-color: hsl(223, 31%, 20%);
+  border-radius: 8px;
   padding-left: 10px;
   padding-right: 10px;
   word-break: break-all;
   white-space: normal;
+  overflow: auto;
 }
 
 .display {
-  font-size: 24px;
+  font-size: 34px;
   text-align: right;
+  word-break: break-word;
+  width: 100%;
+  color: white;
 }
 
 .buttons-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-content: space-around;
-  gap: 6px;
-  border: 1px solid blue;
+  background-color: hsl(223, 31%, 20%);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-template-areas: 
+      "seven eight nine del"
+      "four five six plus"
+      "one two three minus"
+      "decimal zero divide times"
+      "ac ac equal equal"
+  ;
+  gap: 15px;
 }
 
 button {
-  width: 65px;
-  height: 65px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 4px 0px hsl(28, 16%, 65%);
+  font-size: 20px;
+  font-weight: 800;
   cursor: pointer;
+  color: hsl(221, 14%, 31%);
+  background-color: hsl(30, 25%, 89%);
 }
+
+.ac {
+  background-color: hsl(225, 21%, 49%);
+  box-shadow: 0px 4px 0px hsl(224, 28%, 35%);
+  padding: 0;
+  height: 60px;
+  font-size: 14px;
+  height: 40px;
+  color: hsl(0, 0%, 100%);
+  grid-area: ac;
+}
+
+.del {
+  background-color: hsl(225, 21%, 49%);
+  box-shadow: 0px 4px 0px hsl(224, 28%, 35%);
+  padding: 0;
+  grid-area: del;
+  font-size: 14px;
+  height: 40px;
+  color: hsl(0, 0%, 100%);
+}
+
+.divide {
+  grid-area: divide;
+}
+
+.times {
+  grid-area: times;
+}
+
+.seven {
+  height: 40px;
+  grid-area: seven;
+}
+
+.eight {
+  grid-area: eight;
+}
+
+.nine {
+  grid-area: nine;
+}
+
+.minus {
+  grid-area: minus;
+}
+
+.six {
+  height: 40px;
+  grid-area: six;
+}
+
+.five {
+  grid-area: five;
+}
+
+.four {
+  grid-area: four;
+}
+
+.plus {
+  grid-area: plus;
+}
+
+.one {
+  height: 40px;
+  grid-area: one;
+}
+
+.two {
+  grid-area: two;
+}
+
+.three {
+  grid-area: three;
+}
+
+.equal {
+  background-color: hsl(6, 63%, 50%);
+  box-shadow: 0px 4px 0px hsl(6, 70%, 34%);
+  color: white;
+  grid-area: equal;
+}
+
+.zero {
+  height: 40px;
+  grid-area: zero;
+}
+
+.decimal {
+  grid-area: decimal;
+}
+
+
