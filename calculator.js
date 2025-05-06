@@ -34,6 +34,8 @@ addEventListener("keydown", (event) => {
   if(!isNaN(value) || value === ".") {
     if(!operator) {
       firstOperand += value;
+      const first = firstOperand.split("");
+      console.log(first);
       display.textContent = firstOperand;
     }else {
       secondOperand += value;
@@ -57,6 +59,7 @@ addEventListener("keydown", (event) => {
     operator = "";
     secondOperand = "";
     expressionHTML.textContent = "";
+    console.log(`Result: ${result}`);
   }
   
   console.log(`Value: ${value}`)
@@ -120,8 +123,8 @@ buttons.addEventListener("click", (event) => {
   /* console.log(`Value: ${value}`)
   console.log(`First operand: ${firstOperand}`);
   console.log(`Operator: ${operator}`);
-  console.log(`Second operand: ${secondOperand}`); 
-  */
+  console.log(`Second operand: ${secondOperand}`); */ 
+ 
 })
 
 // function that operate whole thing if "=" or "Enter" is press
