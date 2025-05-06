@@ -6,126 +6,145 @@ let firstOperand = "";
 let operator = "";
 let secondOperand = "";
 let expression = "";
-let arr = [];
+
 
 display.textContent = "0";
 
 // Event listeners press buttons!! 
 addEventListener("keydown", (event) => {
   const value = event.key;
+  console.log(value);
+  keysOperate(value);
 
-  if(value === "Backspace") {
-    if(operator !== "") {
-      secondOperand = secondOperand.slice(0, secondOperand.length -1);
-      display.textContent = firstOperand + operator + secondOperand;
-    }else {
-      firstOperand = firstOperand.slice(0, firstOperand.length -1);
-      display.textContent = firstOperand 
-    }
-  }
-
-  if(value === "Delete") {
-    firstOperand = "";
-    operator = "";
-    secondOperand = "";
-    display.textContent = "0";
-  }
-
-  if(!isNaN(value) || value === ".") {
-    if(!operator) {
-      firstOperand += value;
-      const first = firstOperand.split("");
-      console.log(first);
-      display.textContent = firstOperand;
-    }else {
-      secondOperand += value;
-      display.textContent = secondOperand;
-    }
-  }else if(value === ".") {
-    if(!firstOperand.includes(".")) {
-      firstOperand += value;
-      display.textContent = firstOperand;
-    } else if(!secondOperand.includes(".")) {
-      secondOperand += value;
-      display.textContent = firstOperand + operator + secondOperand
-    }
-  }else if(["+", "-", "*", "/"].includes(value)) {
-    operator = value;
-    expressionHTML.textContent = firstOperand + operator
-  }else if(value === "=" || value === "Enter") {
-    const result = operate(Number(firstOperand), operator, Number(secondOperand));
-    display.textContent = result;
-    firstOperand = "";
-    operator = "";
-    secondOperand = "";
-    expressionHTML.textContent = "";
-    console.log(`Result: ${result}`);
-  }
-  
-  console.log(`Value: ${value}`)
   console.log(`First operand: ${firstOperand}`);
   console.log(`Operator: ${operator}`);
-  console.log(`Second operand: ${secondOperand}`);
+  console.log(`Second operand: ${secondOperand}`); 
 });
 
 buttons.addEventListener("click", (event) => {
-  const target = event.target;
-  const value = target.id;
-
-  if(!target.tagName === "BUTTON") return;
-
-  if(value === "delete") {
-    if(operator !== "") {
-      secondOperand = secondOperand.slice(0, secondOperand.length -1);
-      display.textContent = firstOperand + operator + secondOperand;
-    }else {
-      firstOperand = firstOperand.slice(0, firstOperand.length -1);
-      display.textContent = firstOperand 
-    }
+  const button = event.target.closest("button");
+  if(button) {
+    let value = button.id;
+    keysOperate(value);
   }
 
-  if(value === "clear") {
-    firstOperand = "";
-    operator = "";
-    secondOperand = "";
-    display.textContent = "0";
-    expressionHTML.textContent = "";
-  }
-
-  if(!isNaN(value) || value === ".") {
-    if(!operator) {
-      firstOperand += value;
-      display.textContent = firstOperand;
-    }else {
-      secondOperand += value;
-      display.textContent = secondOperand;
-    }
-  }else if(value === ".") {
-    if(!firstOperand.includes(".")) {
-      firstOperand += value;
-      display.textContent = firstOperand;
-    } else if(!secondOperand.includes(".")) {
-      secondOperand += value;
-      display.textContent = firstOperand + operator + secondOperand
-    }
-  }else if(["+", "-", "*", "/"].includes(value)) {
-    operator = value;
-    expressionHTML.textContent = firstOperand + operator
-  }else if(value === "=") {
-    const result = operate(Number(firstOperand), operator, Number(secondOperand));
-    display.textContent = result;
-    firstOperand = "";
-    operator = "";
-    secondOperand = "";
-    expressionHTML.textContent = "";
-  }
-  
-  /* console.log(`Value: ${value}`)
   console.log(`First operand: ${firstOperand}`);
   console.log(`Operator: ${operator}`);
-  console.log(`Second operand: ${secondOperand}`); */ 
+  console.log(`Second operand: ${secondOperand}`); 
  
 })
+
+// OPERATE WHAT BUTTON HAS PRESS
+function keysOperate(value) {
+  if(value === "Backspace") {
+    handleBackspace();
+  }
+  if(value === "clear") { 
+    clearAll();
+  }
+
+  if(!isNaN(value)) {
+    handleNumer(value);
+  }
+
+  if(value === ".") {
+    handleDecimal(value);
+  }
+
+  if(["+", "-", "*", "/"].includes(value)) {
+    handleOperator(value);
+  }
+  if(value === "=" || value === "Enter") {
+    calculateResult(value)
+  }
+}
+
+// HANDLE THE BACKSPACE KEY
+function handleBackspace() {
+  if(operator !== "") {
+    secondOperand = secondOperand.slice(0, secondOperand.length -1);
+    display.textContent = secondOperand;
+    if(secondOperand == "") {
+      display.textContent = "0";
+    }
+  }else {
+    firstOperand = firstOperand.slice(0, firstOperand.length -1);
+    display.textContent = firstOperand 
+  }
+}
+
+// CLEAR ALL THE DISPLAY
+function clearAll() {
+  firstOperand = "";
+  operator = "";
+  secondOperand = "";
+  display.textContent = "0";
+  expressionHTML.textContent = "";
+}
+
+// HANDLE NUMBER
+function handleNumer(value) {
+  if(!operator) {
+    //Stops the number from growing
+    if(firstOperand.length >= 15) return;
+    firstOperand += value;
+    display.textContent = firstOperand 
+  }else {
+    //Stops the number from growing
+    if(secondOperand.length >= 15) return;
+    secondOperand += value;
+    display.textContent = secondOperand;
+  }
+
+  console.log(`Value: ${value}`)
+}
+
+// HANDLE DECIMAL
+function handleDecimal(value) {
+  const currentOperand = operator ? secondOperand : firstOperand;
+  if(value === "." && currentOperand.includes(".")) return;
+
+  if(!operator) {
+    firstOperand += ".";
+    display.textContent = firstOperand;
+  }else{
+    secondOperand += ".";
+    display.textContent = secondOperand;
+  }
+}
+
+// HANDLE OPERATOR
+function handleOperator(value) {
+  operator = value;
+  if(!firstOperand) {
+    firstOperand = "0";
+  }
+  expressionHTML.textContent = firstOperand + operator;
+  console.log(`Value: ${value}`);
+}
+
+// CALCULATE THE RESULT
+function calculateResult() {
+  // Mirror operand on empty input
+  if(!secondOperand) {
+    secondOperand = firstOperand;
+    if(firstOperand && operator && secondOperand) {
+      const result = operate(Number(firstOperand), operator, Number(secondOperand));
+      display.textContent = result;
+      firstOperand = "";
+      operator = "";
+      secondOperand = "";
+      expressionHTML.textContent = "";
+    }
+  }else if(firstOperand && operator && secondOperand) {
+    const result = operate(Number(firstOperand), operator, Number(secondOperand));
+      display.textContent = result;
+      firstOperand = "";
+      operator = "";
+      secondOperand = "";
+      expressionHTML.textContent = "";
+  }
+}
 
 // function that operate whole thing if "=" or "Enter" is press
 function operate(firstOperand, operator, secondOperand) {
