@@ -2,11 +2,13 @@ const buttons = document.querySelector(".buttons-container");
 const display = document.querySelector(".value");
 const expressionHTML = document.querySelector(".expression");
 
+// Operand Variable!!
 let firstOperand = "";
 let operator = "";
 let secondOperand = "";
 let expression = "";
-
+// I place the result as global scope because of the ERROR string becoming firstOperand
+let result;
 
 display.textContent = "0";
 
@@ -21,6 +23,7 @@ addEventListener("keydown", (event) => {
   console.log(`Second operand: ${secondOperand}`); 
 });
 
+// Buttons event listeners!!!
 buttons.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if(button) {
@@ -28,11 +31,11 @@ buttons.addEventListener("click", (event) => {
     keysOperate(value);
   }
 
+// I use to to track my variable to help me debug it!!
   console.log(`First operand: ${firstOperand}`);
   console.log(`Operator: ${operator}`);
   console.log(`Second operand: ${secondOperand}`); 
- 
-})
+})  
 
 // OPERATE WHAT BUTTON HAS PRESS
 function keysOperate(value) {
@@ -118,31 +121,41 @@ function handleOperator(value) {
   operator = value;
   if(!firstOperand) {
     firstOperand = "0";
+  };
+  if(result) {
+    firstOperand =  result;
+    result = operate(Number(firstOperand), operator, Number(secondOperand));
+    display.textContent = result;
   }
   expressionHTML.textContent = firstOperand + operator;
   console.log(`Value: ${value}`);
 }
 
 // CALCULATE THE RESULT
-function calculateResult() {
-  // Mirror operand on empty input
-  if(!secondOperand) {
-    secondOperand = firstOperand;
-    if(firstOperand && operator && secondOperand) {
-      const result = operate(Number(firstOperand), operator, Number(secondOperand));
-      display.textContent = result;
-      firstOperand = "";
-      operator = "";
-      secondOperand = "";
-      expressionHTML.textContent = "";
+function calculateResult() { 
+  if(!operator) {
+    firstOperand = "";
+    operator = "";
+    secondOperand = "";
+    display.textContent = "0";
+  }else {
+    // Mirror operand on empty input
+    if(!secondOperand) {
+      secondOperand = firstOperand;
+      if(firstOperand && operator && secondOperand) {
+        result = operate(Number(firstOperand), operator, Number(secondOperand));
+        display.textContent = result;
+        firstOperand = "";
+        operator = "";
+        secondOperand = "";
+        expressionHTML.textContent = "";
+      }
+    }else if(firstOperand && operator && secondOperand) {
+        result = operate(Number(firstOperand), operator, Number(secondOperand));
+        display.textContent = result;
+    
+        expressionHTML.textContent = firstOperand + operator + secondOperand + "="; 
     }
-  }else if(firstOperand && operator && secondOperand) {
-    const result = operate(Number(firstOperand), operator, Number(secondOperand));
-      display.textContent = result;
-      firstOperand = "";
-      operator = "";
-      secondOperand = "";
-      expressionHTML.textContent = "";
   }
 }
 
