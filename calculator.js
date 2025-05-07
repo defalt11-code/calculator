@@ -70,7 +70,6 @@ function keysOperate(value) {
 // HANDLE THE BACKSPACE KEY
 function handleBackspace() {
   if(result || result == "0") {
-    operator = "";
     secondOperand = "";
     expressionHTML.textContent = "";
     return;
@@ -84,9 +83,10 @@ function handleBackspace() {
       displayOperator =  operator;
       expressionHTML.textContent = `${displayFirstOperand} ${displayOperator}`;
     }
+  }else if(firstOperand == ""){
+    display.textContent = "0" 
   }else {
     firstOperand = firstOperand.slice(0, firstOperand.length -1);
-    display.textContent = firstOperand 
   }
   console.log(result);
 }
