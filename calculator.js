@@ -69,10 +69,14 @@ function keysOperate(value) {
 
 // HANDLE THE BACKSPACE KEY
 function handleBackspace() {
-  if(result || result == "0") {
+  if(result || result == "0" ) {
     secondOperand = "";
     expressionHTML.textContent = "";
     return;
+  }else if(operator) {
+    displayFirstOperand = firstOperand;
+    displayOperator =  operator;
+    expressionHTML.textContent = `${displayFirstOperand} ${displayOperator}`;
   }
   if(operator !== "") {
     secondOperand = secondOperand.slice(0, secondOperand.length -1);
