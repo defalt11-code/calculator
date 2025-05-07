@@ -3,6 +3,9 @@ const display = document.querySelector(".value");
 const expressionHTML = document.querySelector(".expression");
 
 // Operand Variable!!
+let displayFirstOperand = "";
+let displaySecondOperand = "";
+let displayOperator = "";
 let firstOperand = "";
 let operator = "";
 let secondOperand = "";
@@ -35,7 +38,8 @@ buttons.addEventListener("click", (event) => {
   console.log(`First operand: ${firstOperand}`);
   console.log(`Operator: ${operator}`);
   console.log(`Second operand: ${secondOperand}`); 
-})  
+ 
+})
 
 // OPERATE WHAT BUTTON HAS PRESS
 function keysOperate(value) {
@@ -69,6 +73,7 @@ function handleBackspace() {
     display.textContent = secondOperand;
     if(secondOperand == "") {
       display.textContent = "0";
+      expressionHTML.textContent = ``;
     }
   }else {
     firstOperand = firstOperand.slice(0, firstOperand.length -1);
@@ -81,6 +86,7 @@ function clearAll() {
   firstOperand = "";
   operator = "";
   secondOperand = "";
+  result = "";
   display.textContent = "0";
   expressionHTML.textContent = "";
 }
@@ -91,12 +97,15 @@ function handleNumer(value) {
     //Stops the number from growing
     if(firstOperand.length >= 15) return;
     firstOperand += value;
-    display.textContent = firstOperand 
+    displayFirstOperand = firstOperand;
+    display.textContent = displayFirstOperand;
+    expressionHTML.textContent = "";
   }else {
     //Stops the number from growing
     if(secondOperand.length >= 15) return;
     secondOperand += value;
-    display.textContent = secondOperand;
+    displaySecondOperand = secondOperand
+    display.textContent = displaySecondOperand;
   }
 
   console.log(`Value: ${value}`)
@@ -153,8 +162,15 @@ function calculateResult() {
     }else if(firstOperand && operator && secondOperand) {
         result = operate(Number(firstOperand), operator, Number(secondOperand));
         display.textContent = result;
-    
-        expressionHTML.textContent = firstOperand + operator + secondOperand + "="; 
+        displayFirstOperand = firstOperand;
+        displayOperator = operator;
+        displaySecondOperand = secondOperand;
+
+        expressionHTML.textContent = `${displayFirstOperand} ${displayOperator} ${displayFirstOperand} =`; 
+
+        firstOperand = "";
+        operator = "";
+        secondOperand = "";
     }
   }
 }
