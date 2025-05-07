@@ -6,6 +6,7 @@ const expressionHTML = document.querySelector(".expression");
 let displayFirstOperand = "";
 let displaySecondOperand = "";
 let displayOperator = "";
+
 let firstOperand = "";
 let operator = "";
 let secondOperand = "";
@@ -62,13 +63,15 @@ function keysOperate(value) {
     handleOperator(value);
   }
   if(value === "=" || value === "Enter") {
-    calculateResult(value)
+    calculateResult();
   }
 }
 
 // HANDLE THE BACKSPACE KEY
 function handleBackspace() {
   if(result) {
+    operator = "";
+    secondOperand = "";
     expressionHTML.textContent = "";
     return;
   }
@@ -85,6 +88,7 @@ function handleBackspace() {
     firstOperand = firstOperand.slice(0, firstOperand.length -1);
     display.textContent = firstOperand 
   }
+  console.log(result);
 }
 
 // CLEAR ALL THE DISPLAY
@@ -93,6 +97,11 @@ function clearAll() {
   operator = "";
   secondOperand = "";
   result = "";
+
+  displayFirstOperand = "";
+  displayOperator = "";
+  displaySecondOperand = "";
+
   display.textContent = "0";
   expressionHTML.textContent = "";
 }
@@ -101,11 +110,20 @@ function clearAll() {
 function handleNumer(value) {
   if(!operator) {
     //Stops the number from growing
-    if(firstOperand.length >= 15) return;
-    firstOperand += value;
-    displayFirstOperand = firstOperand;
-    display.textContent = displayFirstOperand;
-    expressionHTML.textContent = "";
+    if(result) {
+      result = "";
+      if(firstOperand.length >= 15) return;
+      firstOperand += value;
+      displayFirstOperand = firstOperand;
+      display.textContent = displayFirstOperand;
+      expressionHTML.textContent = "";
+    } else {
+      if(firstOperand.length >= 15) return;
+      firstOperand += value;
+      displayFirstOperand = firstOperand;
+      display.textContent = displayFirstOperand;
+      expressionHTML.textContent = ""
+    }
   }else {
     //Stops the number from growing
     if(secondOperand.length >= 15) return;
@@ -150,7 +168,6 @@ function handleOperator(value) {
 function calculateResult() { 
   if(!operator) {
     firstOperand = "";
-    operator = "";
     secondOperand = "";
     display.textContent = "0";
   }else {
@@ -159,7 +176,12 @@ function calculateResult() {
       secondOperand = firstOperand;
       if(firstOperand && operator && secondOperand) {
         result = operate(Number(firstOperand), operator, Number(secondOperand));
-        display.textContent = result;
+        // Avoid unecessary decimals!!
+        if(Number.isInteger(result)) {
+          display.textContent = result;
+        }else {
+          display.textContent = result.toFixed(2);
+        }
         displayFirstOperand = firstOperand;
         displayOperator = operator;
         displaySecondOperand = secondOperand;
@@ -172,7 +194,12 @@ function calculateResult() {
       }
     }else if(firstOperand && operator && secondOperand) {
         result = operate(Number(firstOperand), operator, Number(secondOperand));
-        display.textContent = result;
+        // Avoid unnecessary decimals!1
+        if(Number.isInteger(result)) {
+          display.textContent = result;
+        }else {
+          display.textContent = result.toFixed(2);
+        }
         displayFirstOperand = firstOperand;
         displayOperator = operator;
         displaySecondOperand = secondOperand;
