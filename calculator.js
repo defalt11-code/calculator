@@ -46,7 +46,7 @@ function keysOperate(value) {
   if(value === "Backspace") {
     handleBackspace();
   }
-  if(value === "clear") { 
+  if(value === "Delete") { 
     clearAll();
   }
 
@@ -68,12 +68,18 @@ function keysOperate(value) {
 
 // HANDLE THE BACKSPACE KEY
 function handleBackspace() {
+  if(result) {
+    expressionHTML.textContent = "";
+    return;
+  }
   if(operator !== "") {
     secondOperand = secondOperand.slice(0, secondOperand.length -1);
     display.textContent = secondOperand;
     if(secondOperand == "") {
       display.textContent = "0";
-      expressionHTML.textContent = ``;
+      displayFirstOperand = firstOperand;
+      displayOperator =  operator;
+      expressionHTML.textContent = `${displayFirstOperand} ${displayOperator}`;
     }
   }else {
     firstOperand = firstOperand.slice(0, firstOperand.length -1);
@@ -132,7 +138,7 @@ function handleOperator(value) {
     firstOperand = "0";
   };
   if(result) {
-    firstOperand =  result;
+    firstOperand = result;
     result = operate(Number(firstOperand), operator, Number(secondOperand));
     display.textContent = result;
   }
@@ -154,10 +160,15 @@ function calculateResult() {
       if(firstOperand && operator && secondOperand) {
         result = operate(Number(firstOperand), operator, Number(secondOperand));
         display.textContent = result;
+        displayFirstOperand = firstOperand;
+        displayOperator = operator;
+        displaySecondOperand = secondOperand;
+
+        expressionHTML.textContent = `${displayFirstOperand} ${displayOperator} ${displaySecondOperand} =`; 
+
         firstOperand = "";
         operator = "";
         secondOperand = "";
-        expressionHTML.textContent = "";
       }
     }else if(firstOperand && operator && secondOperand) {
         result = operate(Number(firstOperand), operator, Number(secondOperand));
@@ -166,7 +177,7 @@ function calculateResult() {
         displayOperator = operator;
         displaySecondOperand = secondOperand;
 
-        expressionHTML.textContent = `${displayFirstOperand} ${displayOperator} ${displayFirstOperand} =`; 
+        expressionHTML.textContent = `${displayFirstOperand} ${displayOperator} ${displaySecondOperand} =`; 
 
         firstOperand = "";
         operator = "";
