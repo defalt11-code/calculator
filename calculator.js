@@ -35,7 +35,7 @@ buttons.addEventListener("click", (event) => {
     keysOperate(value);
   }
 
-// I use to to track my variable to help me debug it!!
+// I use this to track my variable to help me debug it!!
   console.log(`First operand: ${firstOperand}`);
   console.log(`Operator: ${operator}`);
   console.log(`Second operand: ${secondOperand}`); 
