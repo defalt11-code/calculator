@@ -47,7 +47,7 @@ function keysOperate(value) {
   if(value === "Backspace") {
     handleBackspace();
   }
-  if(value === "Delete") { 
+  if(value === "Delete" || value === "Escape") { 
     clearAll();
   }
 
@@ -87,10 +87,13 @@ function handleBackspace() {
       displayOperator =  operator;
       expressionHTML.textContent = `${displayFirstOperand} ${displayOperator}`;
     }
-  }else if(firstOperand == ""){
+  }else if(firstOperand.length === 1){
+    firstOperand = "";
     display.textContent = "0" 
   }else {
     firstOperand = firstOperand.slice(0, firstOperand.length -1);
+    displayFirstOperand = firstOperand == "" ? "0" : firstOperand;
+    display.textContent = displayFirstOperand
   }
   console.log(result);
 }
