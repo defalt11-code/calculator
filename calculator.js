@@ -21,7 +21,8 @@ addEventListener("keydown", (event) => {
   const value = event.key;
   console.log(value);
   keysOperate(value);
-
+  
+// I use this to track my variable to help me debug it!!
   console.log(`First operand: ${firstOperand}`);
   console.log(`Operator: ${operator}`);
   console.log(`Second operand: ${secondOperand}`); 
@@ -167,7 +168,7 @@ function handleOperator(value) {
     result = operate(Number(firstOperand), operator, Number(secondOperand));
     display.textContent = result;
   }
-  expressionHTML.textContent = firstOperand + operator;
+  expressionHTML.textContent = `${firstOperand} ${operator}`;
   console.log(`Value: ${value}`);
 }
 
