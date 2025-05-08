@@ -201,7 +201,7 @@ function calculateResult() {
       }
     }else if(firstOperand && operator && secondOperand) {
         result = operate(Number(firstOperand), operator, Number(secondOperand));
-        // Avoid unnecessary decimals!1
+        // Avoid unnecessary decimals!!
         if(Number.isInteger(result)) {
           display.textContent = result;
         }else {
